@@ -434,6 +434,17 @@ def getLegalMoves(data, color, piece, row, col):
     elif piece == 'k':
         return King(data,row,col).legalMoves(data)
 
+def findMoveablePieces(data):
+    pieceList = []
+    for row in range(len(data.board)):
+        for col in range(len(data.board)):
+            if data.board[row][col][0] == data.turn:
+                color = data.board[row][col][0]
+                piece = data.board[row][col][1]
+                if len(getLegalMoves(data,color,piece,row,col))>1:
+                    pieceList += [(color,piece,row,col)]
+    return(pieceList)
+
 def findPossibleMoves(data):
     #for determining capturable moves and draws
     possibleMoves = []
@@ -620,8 +631,7 @@ def mousePressed(event, data):
             elif 'bp' in data.board[data.rows-1]:
                 if data.aiOn == False:
                     pawnCol = data.board[data.rows-1].index('bp')
-                    data.board[data.rows-1][pawnCol]=(data.board[currRow]
-                        [currCol])
+                    data.board[data.rows-1][pawnCol]=(data.board[currRow][currCol])
                     promoReset(data)
                 else:
                     data.board[data.rows-1][pawnCol] = data.board[4][3]
@@ -928,4 +938,3 @@ def run(width=300, height=300):#from notes with minor changes
     print("bye!")
 
 run(600, 500)
-
